@@ -12,11 +12,51 @@ var {
   StyleSheet,
   Text,
   View,
+  TouchableHighlight,
 } = React;
 
 var REQUEST_URL = "https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json";
 
 var FirstProject = React.createClass({
+  getInitialState: function() {
+    return {
+      background: '#F5FCFF',
+    };
+  },
+  
+  render: function(){
+    return (
+      <View style={[styles.columncontainer, {background: this.state.background}]}>
+      
+      <View style={styles.item}>
+      <Text>Main screen</Text>
+      </View>
+      
+      <View style={styles.item}>
+       <TouchableHighlight
+          activeOpacity={0.6}
+          underlayColor={'white'}
+          onPress={() => this.setState({background: '#fafafa'})}>
+          <Text style={styles.button}>Change Background</Text>
+        </TouchableHighlight>
+      </View>
+
+      <View style={styles.item}>
+       <TouchableHighlight
+          activeOpacity={0.6}
+          underlayColor={'white'}
+          onPress={() => this.setState({background: '#F5FCFF'})}>
+          <Text style={styles.button}>Revert Background</Text>
+        </TouchableHighlight>
+      </View>
+
+      </View>
+    );
+  },
+
+});
+  
+var MovieList = React.createClass({
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
@@ -65,6 +105,16 @@ var FirstProject = React.createClass({
       </View>
     );
   },
+
+  _onPressButton: function(){
+    return(
+      <View>
+      <Text>
+      Button
+      </Text>
+      </View>
+    );
+  },
   
   renderMovie: function(movie) {
     return (
@@ -79,7 +129,7 @@ var FirstProject = React.createClass({
       <Text style={styles.title}>{movie.title}</Text>
       <Text style={styles.year}>{movie.year}</Text>
       </View>
-
+      
       </View>
     );
   },
@@ -115,6 +165,25 @@ var styles = StyleSheet.create({
   listview: {
     paddingTop: 20,
     backgroundColor: '#F5FCFF',
+  },
+  button: {
+    flex: 1,
+    backgroundColor: '#5555FC',
+    width: 175,
+    height: 50,
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: 15,
+    color: '#FAFAFA',
+  },
+  columncontainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  item: {
+    marginBottom: 20,
   },
 });
 
