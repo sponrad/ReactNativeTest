@@ -23,33 +23,48 @@ var FirstProject = React.createClass({
       background: '#F5FCFF',
     };
   },
-  
+
+  componentWillMount: function(){
+    fetch('http://alignthebeat.appspot.com')
+      .then(res => res.json())
+      .then(res => this.setState({ epoch: res.epoch }));
+  },
+
   render: function(){
+    if (!this.state.epoch){
+      return this.renderLoadingView();
+    }
     return (
-      <View style={[styles.columncontainer, {background: this.state.background}]}>
+      <View
+      style={[styles.columncontainer, {background: this.state.background}]}
+      >
       
       <View style={styles.item}>
       <Text>Main screen</Text>
       </View>
+
+      <View style={styles.item}>
+      <Text>Server Epoch: {this.state.epoch}</Text>
+      </View>
       
       <View style={styles.item}>
-       <TouchableHighlight
-          activeOpacity={0.6}
-          underlayColor={'white'}
-          onPress={() => this.setState({background: '#fafafa'})}>
-          <Text style={styles.button}>Change Background</Text>
-        </TouchableHighlight>
+      <Text style={styles.button}>Change Background</Text>
       </View>
 
       <View style={styles.item}>
-       <TouchableHighlight
-          activeOpacity={0.6}
-          underlayColor={'white'}
-          onPress={() => this.setState({background: '#F5FCFF'})}>
-          <Text style={styles.button}>Revert Background</Text>
-        </TouchableHighlight>
+      <Text style={styles.button}>Revert Background</Text>
       </View>
 
+      </View>
+    );
+  },
+
+  renderLoadingView: function(){
+    return(
+      <View style={styles.container}>
+      <Text>
+      Fetching data...
+      </Text>
       </View>
     );
   },
